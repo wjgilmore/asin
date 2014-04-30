@@ -50,8 +50,13 @@ module ASIN
     #
     #   lookup(asin, :ResponseGroup => [:Small, :AlternateVersions])
     #
+    # Because the default :idType is ASIN, you might optionally wish to
+    # search specifically for an ISBN:
+    #   lookup(asin, {:ResponseGroup => :Medium, :IdType => :ISBN})
+    #
     def lookup(*asins)
       params = asins.last.is_a?(Hash) ? asins.pop : {:ResponseGroup => :Medium}
+      params.merge(:idType => 'asin') unless params.has_key?(:IdType)
       response = call(params.merge(:Operation => :ItemLookup, :ItemId => asins.join(',')))
       arrayfy(response['ItemLookupResponse']['Items']['Item']).map {|item| handle_type(item, :item)}
     end
