@@ -51,8 +51,10 @@ module ASIN
     #   lookup(asin, :ResponseGroup => [:Small, :AlternateVersions])
     #
     # Because the default :idType is ASIN, you might optionally wish to
-    # search specifically for an ISBN:
-    #   lookup(asin, {:ResponseGroup => :Medium, :IdType => :ISBN})
+    # search specifically for an ISBN. Note when you explicitly specify the 
+    # idType you need to also specify the SearchIndex:
+    # 
+    #   lookup(asin, {:ResponseGroup => :Medium, :IdType => :ISBN, :SearchIndex => :Books})
     #
     def lookup(*asins)
       params = asins.last.is_a?(Hash) ? asins.pop : {:ResponseGroup => :Medium}
